@@ -1,28 +1,11 @@
 {
-    "name": "todo-cli",
+    "name": "http-server",
     "version": "1.0.0",
     "description": "",
-    "main": "todo.js",
+    "main": "index.js",
     "scripts": {
-      "start": "node todo.js",
-      "test": "jest",
-      "prepare": "cd .. && husky install todo-cli/.husky"
+      "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "lint-staged": {
-      "*.js": [
-        "eslint",
-        "prettier --write ."
-      ]
-    },
-    "author": "Hitesh dutt",
-    "license": "ISC",
-    "dependencies": {
-      "jest": "^29.7.0"
-    },
-    "devDependencies": {
-      "eslint": "^8.54.0",
-      "husky": "^8.0.3",
-      "lint-staged": "^15.1.0",
-      "prettier": "^3.1.0"
-    }
+    "author": "Aayush Pathak",
+    "license": "ISC"
   }
