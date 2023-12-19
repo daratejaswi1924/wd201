@@ -52,6 +52,9 @@ describe ("Todolist Test Suite", () => {
     const dl={title:'Return a book',dueDate:tomorrow,completed:false};
     const duelaterTodoItemsCount =todos.dueLater().length
     todos.add(dl);
-    expect(todos.dueLater().length).toBe(duelaterTodoItemsCount+1);
+    const duelater = todos.dueLater
+    expect(duelater().length).toBe(duelaterTodoItemsCount+1);
   });
 });
+
+    
