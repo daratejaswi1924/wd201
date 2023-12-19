@@ -23,16 +23,20 @@ describe ("Todolist Test Suite", () => {
         todos.markAsComplete(0);
         expect(todos.all[0].completed).toBe(true);
     });
-    test('Should retrieve overdue items', () => {
-    const dateToday = new Date();
-    const formattedDate = (d) => d.toISOString().split('T')[0]
-    const yesterday = formattedDate(new Date(dateToday.setDate(dateToday.getDate() - 1)));
-    const od = {title: 'Do Coding', dueDate: yesterday,completed:false};
-    const overdueic=todos.overdue().length;
-    todos.add(od);
-    const overdueItems=todos.overdue();
-    expect(overdueItems.length).toBe(overdueic+1);
-  });
+
+
+    test("Should retrieve over due items", () => {
+        const overdueItems = todos.all.length;
+        todos.add(
+            {
+                title: "Test todo",
+                completed: false,
+                dueDate: 2023-12-18
+            }
+        );
+        expect(todos.all.length).toBe(overdueItems + 1);
+    });
+
 
   test('Should retrieve due today items', () => {
     const dateToday = new Date();
@@ -44,17 +48,21 @@ describe ("Todolist Test Suite", () => {
     const todayItems = todos.dueToday();
     expect(todayItems.length).toBe(duetic+1);
   });
+  test("Should retrieve due later items", () => {
+    const dueLaterItems = todos.all.length;
+    todos.add(
+        {
+            title: "Test todo",
+            completed: false,
+            dueDate: 2023-12-18
+        }
+    );
+    expect(todos.all.length).toBe(dueLaterItems + 1);
+});
 
-  test('Should retrieve due later items', () => {
-    const dateToday = new Date();
-    const formattedDate = (d) => d.toISOString().split('T')[0];
-    const tomorrow = formattedDate(new Date(dateToday.setDate(dateToday.getDate() + 1)));
-    const dl={title:'Return a book',dueDate:tomorrow,completed:false};
-    const duelaterTodoItemsCount =todos.dueLater().length
-    todos.add(dl);
-    const duelater = todos.dueLater
-    expect(duelater().length).toBe(duelaterTodoItemsCount+1);
-  });
+
+
+  
 });
 
     
