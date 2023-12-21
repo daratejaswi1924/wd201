@@ -1,7 +1,0 @@
-{
-  "devDependencies": {
-    "jest": "^29.7.0",
-    "mysql2": "^3.6.5",
-    "supertest": "^6.3.3"
-  }
-}
