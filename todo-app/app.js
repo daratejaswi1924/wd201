@@ -10,7 +10,7 @@ app.get("/todos",(request,response)=>{
 app.post("/todos",async(request,response)=>{
     console.log("Creating a todo",request.body)
     try{
-        const todo=await Todo.create({title:request.body.title,dueDate:request.body.dueDate,completed:false})  
+        const todo=await Todo.addTodo({title:request.body.title,dueDate:request.body.dueDate})  
         return response.json(todo)                                            
     } catch(error){
         console.log(error)

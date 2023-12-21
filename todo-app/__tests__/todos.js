@@ -1,17 +1,11 @@
 const request = require("supertest");
-const {
-  test,
-  expect,
-  describe,
-  afterAll,
-  beforeAll,
-} = require("@jest/globals");
+
 const db = require("../models/index");
 const app = require("../app");
 
 let server, agent;
 
-describe("Todo Application", function () {
+describe("Todo test suite",  ()=> {
   beforeAll(async () => {
     await db.sequelize.sync({ force: true });
     server = app.listen(3000, () => {});
@@ -19,15 +13,13 @@ describe("Todo Application", function () {
   });
 
   afterAll(async () => {
-    try {
+    
       await db.sequelize.close();
-      await server.close();
-    } catch (error) {
-      console.log(error);
-    }
-  });
+      server.close();
+  
+})
 
-  test("Creates a todo and responds with json at /todos POST endpoint", async () => {
+  test("Creates a todo #1 and responds with json at /todos POST endpoint", async () => {
     const response = await agent.post("/todos").send({
       title: "Buy milk",
       dueDate: new Date().toISOString(),
