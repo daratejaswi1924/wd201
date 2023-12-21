@@ -1,9 +1,11 @@
 {
   "name": "todo-manager",
   "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "pretest":"NODE_ENV=test npx sequelize-cli db:drop && NODE_ENV=test npx sequelize-cli db:create",
+    "test": "NODE_ENV=test jest --detectOpenHandles",
     "prepare":"husky install"
   },
   "lint-staged":{
@@ -25,6 +27,6 @@
     "lint-staged":"^13.0.3",
     "prettier":"^2.7.1",
     "sequelize-cli": "^6.6.2"
-  },
-  "description": ""
+  }
+  
 }
