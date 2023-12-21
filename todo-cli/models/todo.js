@@ -1,6 +1,7 @@
 // models/todo.js
 'use strict';
 const {
+  // eslint-disable-next-line no-unused-vars
   Model,Op, where
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
