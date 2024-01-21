@@ -6,6 +6,18 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 const { Todo } = require("./models");
 
+app.get("/todos",  (_request, response) =>{
+    console.log("Processing list of all Todos ...");
+    try {
+      const todos = await Todo.findAll();
+      return response.json(todos);
+    } catch (error) {
+      console.log(error);
+      return response.status(500).json({ error: "Internal Server Error" });
+    }
+  });
+  
+
 
 app.get("/todos",  (request, response)=> {
   console.log("Todo list")
