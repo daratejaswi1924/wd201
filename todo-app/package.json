@@ -22,7 +22,7 @@
     "cheerio": "^1.0.0-rc.12",
     "eslint": "^8.56.0",
     "lint-staged": "^15.2.0",
-    "nodemon": "^3.0.2",
+    "nodemon": "^3.0.3",
     "prettier": "^3.1.1",
     "sequelize-cli": "^6.6.2"
   },
