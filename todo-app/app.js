@@ -2,25 +2,35 @@ const express = require("express");
 const app = express();
 const { Todo } = require("./models");
 const bodyParser = require("body-parser");
+const path =require("path");
+
 app.use(bodyParser.json());
-const path = require("path");
 
 app.set("view engine", "ejs");
 
-app.get("/", async function (request, response) {
-  const allTodos = await Todo.getTodos();
+app.use(express.static(path.join(__dirname,'public')));
+app.get("/", async (request, response) => {
+  const Overdue = await Todo.getOverdueTodos();
+  const dueToday= await Todo.getdueTodayTodos();
+  const dueLater= await Todo.getdueLaterTodos();
   if (request.accepts("html")) {
-    response.render("index", {
-      allTodos,
+    response.render('index', {
+      Overdue,
+      dueToday,
+      dueLater,
     });
   } else {
     response.json({
-      allTodos,
+      Overdue,
+      dueToday,
+      dueLater,
     });
   }
 });
 
-app.use(express.static(path.join(__dirname, "public")));
+app.get("/", function (request, response) {
+  response.send("Hello World");
+});
 
 app.get("/todos", async function (_request, response) {
   console.log("Processing list of all Todos ...");
@@ -28,7 +38,7 @@ app.get("/todos", async function (_request, response) {
 
   // First, we have to query our PostgerSQL database using Sequelize to get list of all Todos.
   // Then, we have to respond with all Todos, like:
-  const todos = await Todo.findAll();
+  const todos =await Todo.findAll();
   // response.send(todos)
   response.send(todos);
 });
