@@ -2,6 +2,7 @@ const request = require("supertest");
 
 const db = require("../models/index");
 const app = require("../app");
+const { boolean } = require("yargs");
 
 let server, agent;
 
@@ -73,8 +74,16 @@ describe("Todo Application", function () {
 
   test("Deletes a todo with the given ID if it exists and sends a boolean response", async () => {
     // FILL IN YOUR CODE HERE
-    const res = await agent.delete("/todos/2");
-    const parsedResponse = JSON.parse(res.text);
-    expect(parsedResponse).toBe(true);
+    const response = await agent.post("/todos").send({
+      title:"Temporary Item",
+      dueDate: new Date().toISOString(),
+      completed:false
   });
+  const parsedResponse = JSON.parse(response.text)
+  const InsertID = parsedResponse.id
+
+  const deleteResponse  = await agent.delete("/todos/${ InsertID}").sned();
+  const flag = boolean(deleteResponse.text);
+  expect(flag).toBe(true);
+});
 });

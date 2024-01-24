@@ -1,112 +1,152 @@
-'use strict';
-const {
-  Model,
-  Op
-} = require('sequelize');
+"use strict";
+const { Model, Op } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Todo extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
+     * The models/index file will call this method automatically.
      */
     static associate(models) {
       // define association here
     }
-    static addTodos({title,dueDate}){
-      return this.create({title: title, dueDate: dueDate, completed: false});
+    static addTodo({ title, dueDate }) {
+      return this.create({ title: title, dueDate: dueDate, completed: false });
     }
-    static async getTodos(){
-      return this.findAll();
-    }
-    markAsCompleted() {
-      return this.update({completed: true});
-    }
-    static async getOverdueTodos(){
-      try{
-        const OverdueTodos =await Todo.findAll({
+
+    static async getOverdueTodos() {
+      try {
+        const allTodos = await Todo.findAll({
           where: {
-            dueDate:{
+            dueDate: {
               [Op.lt]: new Date(),
             },
           },
         });
-        if(OverdueTodos.length >= 1){
-          return OverdueTodos
-        }else{
-          await this.addTodos({
-            title:"Go to Home",
-            dueDate: new Date(new Date().setDate(new Date().getDate()-1)).toISOString(),
-            completed:false,
-          });          
+        if (allTodos.length >= 1) {
+          return allTodos;
+        } else {
+          await this.addTodo({
+            title: "Buy milk",
+            dueDate: new Date(
+              new Date().setDate(new Date().getDate() - 1)
+            ).toISOString(),
+            completed: false,
+          });
+          await this.addTodo({
+            title: "Buy pen",
+            dueDate: new Date(
+              new Date().setDate(new Date().getDate() - 1)
+            ).toISOString(),
+            completed: false,
+          });
+          return this.getOverdueTodos();
         }
-        const Overdue =this.getOverdueTodos;
-        return Overdue
-      }catch(error) {
-        console.error('Error!!!',error);
+      } catch (error) {
+        console.error("Error getting overdue todos:", error);
         throw error;
       }
     }
-    static async getdueTodayTodos(){
-      try{
-        const DueTodayTodos =await Todo.findAll({
+
+    static async getDueTodayTodos() {
+      try {
+        const allTodos = await Todo.findAll({
           where: {
-            dueDate:{
-              [Op.between]:[new Date(),new Date(new Date().setHours(23,59,59,999))],
+            dueDate: {
+              [Op.between]: [
+                new Date(),
+                new Date(new Date().setHours(23, 59, 59, 999)),
+              ],
             },
           },
         });
-        if(DueTodayTodos.length >=1){
-          return DueTodayTodos;
-        }else{
-          await this.addTodos({
-            title:"Buy milk",
+        if (allTodos.length >= 1) {
+          return allTodos;
+        } else {
+          await this.addTodo({
+            title: "Buy milk",
             dueDate: new Date().toISOString(),
-            completed:false,
+            completed: false,
           });
+          await this.addTodo({
+            title: "Buy pen",
+            dueDate: new Date().toISOString(),
+            completed: false,
+          });
+          return this.getDueTodayTodos();
         }
-        const dueToday = this.getdueTodayTodos;
-        return dueToday
-      }catch(error) {
-        console.error('Error!!!',error);
+      } catch (error) {
+        console.error("Error getting due today todos:", error);
         throw error;
       }
     }
-    static async getdueLaterTodos(){
-      try{
-        const DueLaterTodos =await Todo.findAll({
+
+    static async getDueLaterTodos() {
+      try {
+        const allTodos = await Todo.findAll({
           where: {
-            dueDate:{
+            dueDate: {
               [Op.gt]: new Date(),
             },
           },
         });
-        if(DueLaterTodos.length >=1){
-          return DueLaterTodos;
-        }else{
+        if (allTodos.length >= 1) {
+          return allTodos;
+        } else {
           const tomorrow = new Date();
           tomorrow.setDate(tomorrow.getDate() + 1);
-          await this.addTodos({
-            title:"Have to pay electricity bill",
+
+          await this.addTodo({
+            title: "Buy milk",
             dueDate: tomorrow.toISOString(),
-            completed:false,
+            completed: false,
           });
+          await this.addTodo({
+            title: "Buy pen",
+            dueDate: tomorrow.toISOString(),
+            completed: false,
+          });
+          return this.getDueLaterTodos();
         }
-        const dueLater = this.getdueLaterTodos;
-        return dueLater
-      }catch(error) {
-        console.error('Error!!!',error);
+      } catch (error) {
+        console.error("Error getting due later todos:", error);
         throw error;
       }
     }
+
+    static async getTodos() {
+      const allTodos = await this.findAll();
+      if (allTodos.length >= 1) {
+        return allTodos;
+      } else {
+        await this.addTodo({
+          title: "Buy milk",
+          dueDate: new Date().toISOString(),
+          completed: false,
+        });
+        await this.addTodo({
+          title: "Buy pen",
+          dueDate: new Date().toISOString(),
+          completed: false,
+        });
+        const alTodos = await this.findAll();
+        return alTodos;
+      }
+    }
+    markAsCompleted() {
+      return this.update({ completed: true });
+    }
   }
-  Todo.init({
-    title: DataTypes.STRING,
-    dueDate: DataTypes.DATEONLY,
-    completed: DataTypes.BOOLEAN
-  }, {
-    sequelize,
-    modelName: 'Todo',
-  });
+  Todo.init(
+    {
+      title: DataTypes.STRING,
+      dueDate: DataTypes.DATEONLY,
+      completed: DataTypes.BOOLEAN,
+    },
+    {
+      sequelize,
+      modelName: "Todo",
+    }
+  );
   return Todo;
 };

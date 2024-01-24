@@ -1,40 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo-App</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="/css/styles.css" />
+    <link href="./css/styles.css" rel="stylesheet">
+    
+    <title>Todo-app</title>
 </head>
-
 <body>
     <div class="grid grid-cols-6">
-        <div class="col-start-3 col-span-2">
-            <%- include('header.ejs') %>
-                <form>
-                    <div class="flex gap-2 py-4">
-                        <div class="flex-auto">
-                            <input type="text" placeholder="What's next?"
-                                class="border border-gray-300 rounded text-gray-900 w-full p-2 text-sm" required />
-                        </div>
-                        <div class="flex-auto">
-                            <input type="date"
-                                class="border border-gray-300 rounded text-gray-900 w-full p-2 text-sm leading-4" />
-                        </div>
-                        <div class="flex-none">
-                            <button type="submit"
-                                class="bg-green-600 text-white px-5 py-1.5 rounded font-medium mr-2">Add</button>
-                        </div>
-                    </div>
-                </form>
-                <div>
-                    <%- include('todos.ejs') %>
-                    <%- include('footer.ejs') %>
-                </div>
+        <div class="col-start-3 col span-2">
+    <%- include('header.ejs') %>
+    <form>
+        <div class="flex gap-4 p-4">
+            <div class="flex-auto " >
+                <input type="text" placeholder=" What's Next?" class="border-2 border-black rounded-full p-2 text-sm"/>
+            </div>
+            <div class="flex-auto" >
+                <input type="date" class="border-2 border-black rounded-full px-5 py-2 text-sm"/>
+            </div>
+            <div class="flex-none">
+                <button type="submit" class="bg-sky-400 px-5 py-2 rounded-full text-white hover:bg-sky-800">Add</button>
+            </div>
         </div>
-    </div>
-</body>
+        
+    </form>
 
+
+    <div class="mx-auto">
+        <h5 class="text-xl font-bold">Overdue <span id="count-overdue" class="px-2" > <%= overdue.length %> </span></h5>
+        <div>
+            <% overdue.forEach(todo => { %>
+                <div class="flex items-center w-fit my-2 px-2 py-1 hover:bg-sky-300">
+                    <input id="todo-checkbox-<%= todo.dataValues.id %>" type="checkbox" class="w-5 h-5 p-3 rounded-full border-4 border-black cursor-pointer">
+                    <label for="todo-checkbox-<%= todo.dataValues.id %>" class="ml-2 text-l text-white cursor-pointer"><%= todo.dataValues.title %>
+                    </label>
+                    <a href="#" class="hidden trash-icon  ml-2" >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                          </svg>
+                          
+                    </a>
+                </div>
+                 <% }); %>
+        </div> </div>
+
+
+        <div class="mx-auto">
+            <h5 class="text-xl font-bold">Due Today <span id="count-due-today" class="px-2 "><%= duetoday.length %></span></h5>
+            <div>
+                <% duetoday.forEach(todo => { %>
+                    <div class="flex items-center w-fit my-2 px-2 py-1 hover:bg-sky-300">
+                        <input id="todo-checkbox-<%= todo.dataValues.id %>" type="checkbox" class="w-5 h-5 p-3 rounded-full border-4 border-black cursor-pointer">
+                        <label for="todo-checkbox-<%= todo.dataValues.id %>" class="ml-2 text-l text-white cursor-pointer"><%= todo.dataValues.title %></label>
+                        <a href="#" class="hidden trash-icon  ml-2" >
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                              </svg><section id="Overdue"></section></a> </div><% }); %> </div> </div>
+        
+
+
+                     <div class="mx-auto">
+                         <h5 class="text-xl font-bold">Due Later <span id="count-due-today"><%= duelater.length %></span></h5>
+                     <div>
+                        <% duelater.forEach(todo => { %>
+                                <div class="flex items-center w-fit my-2 px-2 py-1 hover:bg-sky-300">
+                                      <input id="todo-checkbox-<%= todo.dataValues.id %>" type="checkbox" class="w-5 h-5 p-3 rounded-full border-4 border-black cursor-pointer">
+                                     <label for="todo-checkbox-<%= todo.dataValues.id %>" class="ml-2 text-l text-white cursor-pointer"><%= todo.dataValues.title %></label>
+                                     <a href="#" class="hidden trash-icon  ml-2" >
+                                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                              <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                        </svg>
+                                                  
+                                         </a>
+                                </div>
+                                    <% }); %>
+                         </div>
+
+
+
+
+
+
+   
+    <%- include('todos.ejs') %>
+
+<%- include('footer.ejs') %>
+
+</body>
 </html>
